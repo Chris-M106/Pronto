@@ -1,0 +1,9 @@
+{
+  "name": "config",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "tailwindcss": "4.2.4",
+    "eslint": "10.3.0"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "mobile",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "expo start",
+    "build": "expo build:android && expo build:ios"
+  },
+  "dependencies": {
+    "react": "19.2.5",
+    "react-native": "0.85.2",
+    "expo": "55.0.19"
+  }
+}
