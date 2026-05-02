@@ -3,6 +3,7 @@ export default {
   content: [
     './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/styles/**/*.css',
     '../../packages/ui/src/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
@@ -12,17 +13,11 @@ export default {
         blue: '#2563eb',
         teal: '#14b8a6',
         amber: '#f59e0b',
-        light: {
-          bg: '#f8fafc',
-        },
-        dark: {
-          bg: '#0f172a',
-        },
-        text: {
-          dark: '#1e293b',
-          light: '#94a3b8',
-        },
-        border: '#e2e8f0',
+        'light-bg': '#f8fafc',
+        'dark-bg': '#0f172a',
+        'text-dark': '#1e293b',
+        'text-light': '#94a3b8',
+        'border': '#e2e8f0',
       },
       fontFamily: {
         inter: ['Inter', 'sans-serif'],

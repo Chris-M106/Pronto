@@ -26,10 +26,7 @@
         "./src/*"
       ],
       "ui": [
-        "../../packages/ui/src/index.ts"
-      ],
-      "ui/*": [
-        "../../packages/ui/src/*"
+        "../../packages/ui/src"
       ]
     },
     "allowJs": true,
