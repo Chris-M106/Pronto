@@ -26,5 +26,6 @@ export const useAuthStore = create<AuthState>((set) => ({
     }),
   setRole: (role) => set({ role }),
   setInitialized: (initialized) => set({ initialized }),
+  // initialized intentionally preserved across logout — bootstrap only runs once per app launch.
   reset: () => set({ session: null, user: null, role: null }),
 }));

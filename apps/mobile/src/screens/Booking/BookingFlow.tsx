@@ -24,7 +24,9 @@ type Rt = RouteProp<CustomerStackParamList, 'BookingFlow'>;
 const STEPS = ['Service', 'Details', 'When', 'Budget', 'Pay'] as const;
 type StepIdx = 0 | 1 | 2 | 3 | 4;
 
-const SIZES: Array<{ key: 'small' | 'medium' | 'large' | 'fullDay'; label: string }> = [
+import type { JobSize } from '../../store/bookingStore';
+
+const SIZES: Array<{ key: JobSize; label: string }> = [
   { key: 'small', label: 'Small (1h)' },
   { key: 'medium', label: 'Medium (2-4h)' },
   { key: 'large', label: 'Large (half day)' },
@@ -39,7 +41,8 @@ export default function BookingFlow() {
 
   const [step, setStep] = useState<StepIdx>(0);
   const [services, setServices] = useState<Service[]>([]);
-  const [size, setSize] = useState<'small' | 'medium' | 'large' | 'fullDay'>('small');
+  const size = draft.size;
+  const setSize = (s: JobSize) => setDraft({ size: s });
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(false);
 

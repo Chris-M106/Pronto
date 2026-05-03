@@ -10,6 +10,7 @@ import {
   View,
 } from 'react-native';
 import { useRoute, RouteProp } from '@react-navigation/native';
+import { useHeaderHeight } from '@react-navigation/elements';
 import Screen from '../../components/Screen';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import { colors } from '../../utils/colors';
@@ -24,6 +25,7 @@ type Rt = RouteProp<CustomerStackParamList, 'Chat'>;
 
 export default function ChatScreen() {
   const route = useRoute<Rt>();
+  const headerHeight = useHeaderHeight();
   const { conversationId: bookingId, otherUserId } = route.params;
   const { user } = useAuthStore();
   const [messages, setMessages] = useState<Message[]>([]);
@@ -76,7 +78,7 @@ export default function ChatScreen() {
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={80}
+        keyboardVerticalOffset={headerHeight}
       >
         <FlatList
           ref={listRef}

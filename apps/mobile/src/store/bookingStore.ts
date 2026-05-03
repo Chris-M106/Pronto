@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import type { Booking } from '@pronto/types';
 
+export type JobSize = 'small' | 'medium' | 'large' | 'fullDay';
+
 export interface DraftBooking {
   serviceId: string | null;
   serviceCategory: string | null;
@@ -10,6 +12,7 @@ export interface DraftBooking {
   estimatedCents: number | null;
   address: string;
   photos: string[];
+  size: JobSize;
 }
 
 interface BookingState {
@@ -32,6 +35,7 @@ const emptyDraft: DraftBooking = {
   estimatedCents: null,
   address: '',
   photos: [],
+  size: 'small',
 };
 
 export const useBookingStore = create<BookingState>((set) => ({

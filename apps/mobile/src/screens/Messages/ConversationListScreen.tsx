@@ -9,15 +9,10 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { colors } from '../../utils/colors';
 import { fontSize, fontWeight, spacing } from '../../utils/spacing';
 import { useAuthStore } from '../../store/authStore';
-import { listConversations } from '../../services/messages';
+import { listConversations, type Conversation } from '../../services/messages';
 import type { CustomerStackParamList } from '../../types';
-import type { Message } from '@pronto/types';
 
-interface ConvItem {
-  otherUserId: string;
-  bookingId: string;
-  last: Message;
-}
+type ConvItem = Conversation;
 
 type Nav = NativeStackNavigationProp<CustomerStackParamList, 'CustomerTabs'>;
 
@@ -72,10 +67,10 @@ export default function ConversationListScreen() {
             style={{ marginBottom: spacing.sm }}
           >
             <View style={styles.row}>
-              <Avatar name={item.otherUserId.slice(0, 2)} size={44} />
+              <Avatar name={item.otherName ?? item.otherUserId.slice(0, 2)} size={44} />
               <View style={{ flex: 1, marginLeft: spacing.md }}>
                 <Text style={styles.name} numberOfLines={1}>
-                  {item.otherUserId.slice(0, 8)}…
+                  {item.otherName ?? `${item.otherUserId.slice(0, 8)}…`}
                 </Text>
                 <Text style={styles.preview} numberOfLines={1}>
                   {item.last.body}
