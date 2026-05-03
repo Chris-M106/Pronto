@@ -1,0 +1,26 @@
+pronto-build-log.txt
+=====================
+
+DAY 1 (May 3, 2026)
+---
+PACK 0: Machine setup - ~500 tokens
+PACK 1-2: GitHub + folders - ~1,000 tokens
+PACK 3-5: Accounts + monorepo - ~3,000 tokens
+PACK 6: Database (14 tables) - ~4,500 tokens
+---
+Day 1 Total: ~9,000 tokens
+Model used: Claude Haiku 4.5 (cheaper)
+Status: ✅ COMPLETE
+
+DAY 2 (May 4, 2026)
+---
+PACK 7: Web landing page (12 sections, animations, polish) - ~37,000 tokens
+---
+Day 2 Total: ~37,000 tokens
+Model used: Claude Opus 4.6 (more capable, pricier)
+Status: ✅ COMPLETE
+
+COST ANALYSIS:
+- Day 1 (Haiku): Very cheap (~$0.05-0.10)
+- Day 2 (Opus): ~$0.60-0.80
+- Total so far: ~$0.70-0.90
