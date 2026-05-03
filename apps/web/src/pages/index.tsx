@@ -1,40 +1,52 @@
 import Head from 'next/head';
-import Navigation from '../components/Navigation';
+import { useEffect, useState } from 'react';
+import Nav from '../components/Nav';
 import Hero from '../components/Hero';
-import ServicesGrid from '../components/ServicesGrid';
+import Ribbon from '../components/Ribbon';
+import Services from '../components/Services';
 import HowItWorks from '../components/HowItWorks';
 import Features from '../components/Features';
-import PricingTiers from '../components/PricingTiers';
-import EarningsChart from '../components/EarningsChart';
+import Tiers from '../components/Tiers';
+import Earnings from '../components/Earnings';
+import Estimator from '../components/Estimator';
 import Reviews from '../components/Reviews';
 import CTA from '../components/CTA';
 import Footer from '../components/Footer';
 
 export default function Home() {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const h = () => setScrolled(window.scrollY > 60);
+    window.addEventListener('scroll', h);
+    return () => window.removeEventListener('scroll', h);
+  }, []);
+
   return (
     <>
       <Head>
-        <title>Pronto - Home Services Marketplace</title>
+        <title>Pronto — Your neighbourhood, handled.</title>
         <meta
           name="description"
-          content="Find trusted service providers for plumbing, electrical, painting, and more. Book online, pay securely."
+          content="Vetted local tradespeople, transparent pricing, and full payment protection. Live in Lisbon and Porto."
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta charSet="utf-8" />
       </Head>
-
-      <main className="overflow-x-hidden">
-        <Navigation />
+      <div style={{ fontFamily: 'Inter,system-ui,sans-serif', overflowX: 'hidden' }}>
+        <Nav scrolled={scrolled} />
         <Hero />
-        <ServicesGrid />
+        <Ribbon />
+        <Services />
         <HowItWorks />
         <Features />
-        <PricingTiers />
-        <EarningsChart />
+        <Tiers />
+        <Earnings />
+        <Estimator />
         <Reviews />
         <CTA />
         <Footer />
-      </main>
+      </div>
     </>
   );
 }
