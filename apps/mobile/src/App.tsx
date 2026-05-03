@@ -1,7 +1,9 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
+import { NavigationContainer as NavigationContainerRaw, DefaultTheme } from '@react-navigation/native';
+
+const NavigationContainer = NavigationContainerRaw as any;
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { View } from 'react-native';
 import AppNavigator from './navigation/AppNavigator';

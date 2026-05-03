@@ -10,7 +10,7 @@ import ChatScreen from '../screens/Messages/ChatScreen';
 import SettingsScreen from '../screens/Account/SettingsScreen';
 import { useAuthStore } from '../store/authStore';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator() as any;
 
 export default function AppNavigator() {
   const role = useAuthStore((s) => s.role);

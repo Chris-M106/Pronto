@@ -21,7 +21,12 @@
       "Bash(curl -sf -o /dev/null http://localhost:3000)",
       "PowerShell(Stop-Process -Id 13192 -Force -ErrorAction SilentlyContinue; Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }; \"killed\")",
       "Bash(npx tsc *)",
-      "Bash(grep -iE \"\\(react-nav|zustand|supabase|^expo$\\)\")"
+      "Bash(grep -iE \"\\(react-nav|zustand|supabase|^expo$\\)\")",
+      "Bash(xargs grep *)",
+      "Bash([ -d \"node_modules/$d\" ])",
+      "Bash(tee /tmp/tsc.log)",
+      "Read(//tmp/**)",
+      "Bash(npx expo *)"
     ]
   }
 }

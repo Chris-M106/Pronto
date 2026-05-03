@@ -5,7 +5,7 @@ import LoginScreen from '../screens/Auth/LoginScreen';
 import SignUpScreen from '../screens/Auth/SignUpScreen';
 import type { AuthStackParamList } from '../types';
 
-const Stack = createNativeStackNavigator<AuthStackParamList>();
+const Stack = createNativeStackNavigator<AuthStackParamList>() as any;
 
 export default function AuthNavigator() {
   return (

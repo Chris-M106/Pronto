@@ -1,6 +1,8 @@
 import React from 'react';
 import { ScrollView, StyleSheet, View, ViewStyle } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView as SafeAreaViewRaw } from 'react-native-safe-area-context';
+
+const SafeAreaView = SafeAreaViewRaw as any;
 import { colors } from '../utils/colors';
 import { spacing } from '../utils/spacing';
 

@@ -10,7 +10,7 @@ import { colors } from '../utils/colors';
 import { fontWeight } from '../utils/spacing';
 import type { ProviderTabParamList } from '../types';
 
-const Tab = createBottomTabNavigator<ProviderTabParamList>();
+const Tab = createBottomTabNavigator<ProviderTabParamList>() as any;
 
 const icon = (emoji: string) => ({ color, size }: { color: string; size: number }) => (
   <Text style={{ fontSize: size, color }}>{emoji}</Text>

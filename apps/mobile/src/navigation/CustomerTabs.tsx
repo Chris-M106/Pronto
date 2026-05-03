@@ -9,7 +9,7 @@ import { colors } from '../utils/colors';
 import { fontWeight } from '../utils/spacing';
 import type { CustomerTabParamList } from '../types';
 
-const Tab = createBottomTabNavigator<CustomerTabParamList>();
+const Tab = createBottomTabNavigator<CustomerTabParamList>() as any;
 
 const icon = (emoji: string) => ({ color, size }: { color: string; size: number }) => (
   <Text style={{ fontSize: size, color }}>{emoji}</Text>

@@ -18,7 +18,7 @@ export function useAuthBootstrap() {
       }
     })();
 
-    const { data: sub } = onAuthStateChange((_event, session) => {
+    const { data: sub } = onAuthStateChange(async (_event, session) => {
       setSession(session);
     });
 

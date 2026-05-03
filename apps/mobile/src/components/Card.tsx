@@ -1,12 +1,12 @@
 import React from 'react';
-import { Pressable, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
+import { Pressable, StyleProp, StyleSheet, View, ViewProps, ViewStyle } from 'react-native';
 import { colors } from '../utils/colors';
 import { radius, spacing } from '../utils/spacing';
 
 interface Props extends ViewProps {
   onPress?: () => void;
   padding?: number;
-  style?: ViewStyle;
+  style?: StyleProp<ViewStyle>;
 }
 
 export default function Card({ children, onPress, padding = spacing.lg, style, ...rest }: Props) {
