@@ -19,7 +19,9 @@
       "Bash(curl -s -o /dev/null -w \"HTTP: %{http_code}  Size: %{size_download}b  Time: %{time_total}s\\\\n\" http://localhost:3000)",
       "Bash(grep -oE '\\\\.\\(bg-navy|text-blue|text-teal|text-amber|bg-light-bg|border-border|text-text-dark|bg-amber|hover\\\\\\\\:text-blue|hover\\\\\\\\:bg-light-bg\\)\\\\{[^}]+\\\\}')",
       "Bash(curl -sf -o /dev/null http://localhost:3000)",
-      "PowerShell(Stop-Process -Id 13192 -Force -ErrorAction SilentlyContinue; Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }; \"killed\")"
+      "PowerShell(Stop-Process -Id 13192 -Force -ErrorAction SilentlyContinue; Get-NetTCPConnection -LocalPort 3000 -ErrorAction SilentlyContinue | Select-Object -ExpandProperty OwningProcess -Unique | ForEach-Object { Stop-Process -Id $_ -Force -ErrorAction SilentlyContinue }; \"killed\")",
+      "Bash(npx tsc *)",
+      "Bash(grep -iE \"\\(react-nav|zustand|supabase|^expo$\\)\")"
     ]
   }
 }

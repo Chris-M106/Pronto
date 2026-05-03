@@ -1,0 +1,41 @@
+import React from 'react';
+import { Text } from 'react-native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import HomeScreen from '../screens/Home/HomeScreen';
+import SearchScreen from '../screens/Home/SearchScreen';
+import ConversationListScreen from '../screens/Messages/ConversationListScreen';
+import AccountScreen from '../screens/Account/AccountScreen';
+import { colors } from '../utils/colors';
+import { fontWeight } from '../utils/spacing';
+import type { CustomerTabParamList } from '../types';
+
+const Tab = createBottomTabNavigator<CustomerTabParamList>();
+
+const icon = (emoji: string) => ({ color, size }: { color: string; size: number }) => (
+  <Text style={{ fontSize: size, color }}>{emoji}</Text>
+);
+
+export default function CustomerTabs() {
+  return (
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: colors.blue,
+        tabBarInactiveTintColor: colors.textLight,
+        tabBarLabelStyle: { fontSize: 11, fontWeight: fontWeight.semibold as any },
+        tabBarStyle: {
+          backgroundColor: colors.white,
+          borderTopColor: colors.border,
+          paddingTop: 6,
+          paddingBottom: 6,
+          height: 64,
+        },
+      }}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} options={{ tabBarIcon: icon('🏠') }} />
+      <Tab.Screen name="Search" component={SearchScreen} options={{ tabBarIcon: icon('🔍') }} />
+      <Tab.Screen name="Messages" component={ConversationListScreen} options={{ tabBarIcon: icon('💬') }} />
+      <Tab.Screen name="Account" component={AccountScreen} options={{ tabBarIcon: icon('👤') }} />
+    </Tab.Navigator>
+  );
+}

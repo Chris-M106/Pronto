@@ -1,0 +1,30 @@
+{
+  "expo": {
+    "name": "Pronto",
+    "slug": "pronto",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "pronto",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.pronto.app",
+      "supportsTablet": false
+    },
+    "android": {
+      "package": "com.pronto.app",
+      "adaptiveIcon": {
+        "backgroundColor": "#1E2B5E"
+      }
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [],
+    "extra": {
+      "supabaseUrl": "",
+      "supabaseAnonKey": "",
+      "stripePublishableKey": ""
+    }
+  }
+}
