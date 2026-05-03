@@ -71,6 +71,7 @@ export default function TrackingScreen() {
     );
 
   const currentIdx = STAGES.indexOf(booking.status);
+  const isTerminal = booking.status === 'cancelled' || booking.status === 'disputed';
 
   return (
     <Screen padded={false}>
@@ -78,21 +79,37 @@ export default function TrackingScreen() {
         <Text style={styles.label}>Booking</Text>
         <Text style={styles.title}>{booking.title}</Text>
 
-        <Card style={{ marginTop: spacing.lg }}>
-          <Text style={styles.section}>Status</Text>
-          {STAGES.map((s, i) => (
-            <View key={s} style={styles.stageRow}>
-              <View style={[styles.stageDot, i <= currentIdx && styles.stageDotActive]}>
-                <Text style={[styles.stageDotText, i <= currentIdx && { color: colors.white }]}>
-                  {i <= currentIdx ? '✓' : i + 1}
+        {isTerminal ? (
+          <Card
+            style={{
+              marginTop: spacing.lg,
+              backgroundColor: booking.status === 'disputed' ? colors.blueBg : colors.border,
+            }}
+          >
+            <Text style={styles.section}>{STAGE_LABELS[booking.status]}</Text>
+            <Text style={styles.body}>
+              {booking.status === 'cancelled'
+                ? 'This booking was cancelled.'
+                : 'This booking is under dispute. Support will reach out.'}
+            </Text>
+          </Card>
+        ) : (
+          <Card style={{ marginTop: spacing.lg }}>
+            <Text style={styles.section}>Status</Text>
+            {STAGES.map((s, i) => (
+              <View key={s} style={styles.stageRow}>
+                <View style={[styles.stageDot, i <= currentIdx && styles.stageDotActive]}>
+                  <Text style={[styles.stageDotText, i <= currentIdx && { color: colors.white }]}>
+                    {i <= currentIdx ? '✓' : i + 1}
+                  </Text>
+                </View>
+                <Text style={[styles.stageText, i === currentIdx && { color: colors.navy, fontWeight: fontWeight.bold }]}>
+                  {STAGE_LABELS[s]}
                 </Text>
               </View>
-              <Text style={[styles.stageText, i === currentIdx && { color: colors.navy, fontWeight: fontWeight.bold }]}>
-                {STAGE_LABELS[s]}
-              </Text>
-            </View>
-          ))}
-        </Card>
+            ))}
+          </Card>
+        )}
 
         {booking.description ? (
           <Card style={{ marginTop: spacing.md }}>

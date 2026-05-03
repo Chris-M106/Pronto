@@ -30,12 +30,6 @@ export async function signUp({ email, password, fullName, role }: SignUpInput) {
     if (profileErr && profileErr.code !== '23505') {
       console.warn('[auth] profile insert failed:', profileErr.message);
     }
-    const { error: roleErr } = await supabase.from('users').upsert({
-      id: data.user.id,
-      email,
-      role,
-    });
-    if (roleErr) console.warn('[auth] role upsert failed:', roleErr.message);
   }
   return data;
 }

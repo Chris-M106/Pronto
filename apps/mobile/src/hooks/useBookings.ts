@@ -11,8 +11,13 @@ import {
 import type { BookingStatus } from '@pronto/types';
 
 export function useBookings() {
-  const { user, role } = useAuthStore();
-  const { bookings, setBookings, loading, setLoading, upsertBooking } = useBookingStore();
+  const user = useAuthStore((s) => s.user);
+  const role = useAuthStore((s) => s.role);
+  const bookings = useBookingStore((s) => s.bookings);
+  const setBookings = useBookingStore((s) => s.setBookings);
+  const loading = useBookingStore((s) => s.loading);
+  const setLoading = useBookingStore((s) => s.setLoading);
+  const upsertBooking = useBookingStore((s) => s.upsertBooking);
 
   const refresh = useCallback(async () => {
     if (!user) return;

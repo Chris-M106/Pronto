@@ -3,7 +3,8 @@ import { useAuthStore } from '../store/authStore';
 import { getSession, onAuthStateChange, signIn, signOut, signUp } from '../services/auth';
 
 export function useAuthBootstrap() {
-  const { setSession, setInitialized } = useAuthStore();
+  const setSession = useAuthStore((s) => s.setSession);
+  const setInitialized = useAuthStore((s) => s.setInitialized);
 
   useEffect(() => {
     let mounted = true;
@@ -30,7 +31,11 @@ export function useAuthBootstrap() {
 }
 
 export function useAuth() {
-  const { session, user, role, initialized, reset } = useAuthStore();
+  const session = useAuthStore((s) => s.session);
+  const user = useAuthStore((s) => s.user);
+  const role = useAuthStore((s) => s.role);
+  const initialized = useAuthStore((s) => s.initialized);
+  const reset = useAuthStore((s) => s.reset);
   return {
     session,
     user,

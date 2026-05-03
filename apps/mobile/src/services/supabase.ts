@@ -4,7 +4,7 @@ import { createClient } from '@supabase/supabase-js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from '../utils/constants';
 
 if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  console.warn(
+  throw new Error(
     '[Pronto] Supabase URL or anon key missing. Set EXPO_PUBLIC_SUPABASE_URL and EXPO_PUBLIC_SUPABASE_ANON_KEY in .env or app.json extra.'
   );
 }

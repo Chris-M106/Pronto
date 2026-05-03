@@ -39,7 +39,10 @@ export default function HomeScreen() {
                 <Text style={styles.actionEmoji}>＋</Text>
                 <Text style={styles.actionLabel}>Book a service</Text>
               </Card>
-              <Card style={[styles.action, { backgroundColor: colors.tealBg }]}>
+              <Card
+                onPress={() => (navigation as any).navigate('Search')}
+                style={[styles.action, { backgroundColor: colors.tealBg }]}
+              >
                 <Text style={styles.actionEmoji}>🔍</Text>
                 <Text style={[styles.actionLabel, { color: colors.navy }]}>Find a pro</Text>
               </Card>

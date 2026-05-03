@@ -50,11 +50,16 @@ export default function BookingFlow() {
       .then((s) => alive && setServices(s))
       .catch(() => alive && setServices([]))
       .finally(() => alive && setLoading(false));
-    if (route.params?.serviceCategory) setDraft({ serviceCategory: route.params.serviceCategory });
     return () => {
       alive = false;
     };
   }, []);
+
+  useEffect(() => {
+    if (route.params?.serviceCategory) {
+      setDraft({ serviceCategory: route.params.serviceCategory });
+    }
+  }, [route.params?.serviceCategory, setDraft]);
 
   const filteredServices = useMemo(() => {
     if (!draft.serviceCategory) return services;
@@ -152,17 +157,8 @@ export default function BookingFlow() {
                 ) : filteredServices.length === 0 ? (
                   <Card>
                     <Text style={{ color: colors.textMuted }}>
-                      No specific services seeded for this category yet — that&apos;s OK, the title field will describe it.
+                      No services available for this category yet. Pick a different category.
                     </Text>
-                    <View style={{ height: spacing.sm }} />
-                    <Button
-                      label="Use generic service"
-                      variant="outline"
-                      onPress={() => {
-                        setDraft({ serviceId: 'generic-' + draft.serviceCategory });
-                        next();
-                      }}
-                    />
                   </Card>
                 ) : (
                   filteredServices.map((s) => (

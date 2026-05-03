@@ -30,14 +30,18 @@ export async function searchProviders(filter: ProviderFilter = {}): Promise<Prov
     .from('profiles')
     .select(
       `user_id, full_name, avatar_url, city, bio,
-       provider_services(hourly_rate_cents, services!inner(category))`
+       provider_services!inner(hourly_rate_cents, services!inner(category))`
     )
     .limit(50);
+
+  if (filter.category) {
+    query = query.eq('provider_services.services.category', filter.category);
+  }
 
   const { data, error } = await query;
   if (error) throw error;
 
-  const items: ProviderListItem[] = (data ?? []).map((p: any) => {
+  let items: ProviderListItem[] = (data ?? []).map((p: any) => {
     const ps = (p.provider_services ?? []).filter((x: any) =>
       filter.category ? x.services?.category === filter.category : true
     );
@@ -47,13 +51,13 @@ export async function searchProviders(filter: ProviderFilter = {}): Promise<Prov
       avatar_url: p.avatar_url,
       city: p.city,
       bio: p.bio,
-      rating: 4.5 + Math.random() * 0.5,
-      jobs_completed: Math.floor(Math.random() * 200),
+      rating: seededRating(p.user_id),
+      jobs_completed: seededJobsCompleted(p.user_id),
       hourly_rate_cents: ps[0]?.hourly_rate_cents ?? null,
     };
   });
 
-  if (filter.minRating) items.filter((i) => i.rating >= filter.minRating!);
+  if (filter.minRating) items = items.filter((i) => i.rating >= filter.minRating!);
   if (filter.sortBy === 'rating') items.sort((a, b) => b.rating - a.rating);
   if (filter.sortBy === 'price')
     items.sort((a, b) => (a.hourly_rate_cents ?? 0) - (b.hourly_rate_cents ?? 0));
@@ -78,6 +82,24 @@ export async function getProviderServices(providerId: string): Promise<ProviderS
     .eq('provider_id', providerId);
   if (error) throw error;
   return (data ?? []) as ProviderService[];
+}
+
+function hashStr(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
+
+function seededRating(userId: string): number {
+  const r = (hashStr(userId + ':rating') % 1000) / 1000;
+  return Math.round((4.0 + r) * 10) / 10;
+}
+
+function seededJobsCompleted(userId: string): number {
+  return hashStr(userId + ':jobs') % 200;
 }
 
 export async function updateProfile(userId: string, patch: Partial<Profile>) {

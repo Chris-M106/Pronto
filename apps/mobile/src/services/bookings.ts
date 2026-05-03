@@ -35,14 +35,36 @@ export async function listBookingsForCustomer(customerId: string): Promise<Booki
 }
 
 export async function listJobsForProvider(providerId: string): Promise<Booking[]> {
-  const { data, error } = await supabase
+  const { data: ps, error: psErr } = await supabase
+    .from('provider_services')
+    .select('service_id')
+    .eq('provider_id', providerId);
+  if (psErr) throw psErr;
+  const serviceIds = (ps ?? []).map((r: any) => r.service_id);
+
+  const claimed = supabase
     .from('bookings')
     .select('*')
-    .or(`provider_id.eq.${providerId},provider_id.is.null`)
-    .in('status', ['pending', 'accepted', 'in_progress'])
-    .order('created_at', { ascending: false });
-  if (error) throw error;
-  return (data ?? []) as Booking[];
+    .eq('provider_id', providerId)
+    .in('status', ['pending', 'accepted', 'in_progress']);
+  const { data: claimedData, error: claimedErr } = await claimed;
+  if (claimedErr) throw claimedErr;
+
+  let openData: Booking[] = [];
+  if (serviceIds.length > 0) {
+    const { data, error } = await supabase
+      .from('bookings')
+      .select('*')
+      .is('provider_id', null)
+      .in('service_id', serviceIds)
+      .in('status', ['pending', 'accepted', 'in_progress']);
+    if (error) throw error;
+    openData = (data ?? []) as Booking[];
+  }
+
+  const merged = [...((claimedData ?? []) as Booking[]), ...openData];
+  merged.sort((a, b) => (b.created_at ?? '').localeCompare(a.created_at ?? ''));
+  return merged;
 }
 
 export async function getBooking(id: string): Promise<Booking | null> {
