@@ -53,32 +53,32 @@ export default function Tiers() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: '1rem' }}>
         {tiers.map((t, i) => (
           <FadeIn key={i} delay={i * 0.08}>
-            <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 16, padding: '1.6rem' }}>
+            <div style={{ background: t.card, border: `1px solid ${t.border}`, borderRadius: 16, padding: '1.2rem' }}>
               <div
                 style={{
                   display: 'inline-block',
-                  fontSize: '.65rem',
+                  fontSize: '.6rem',
                   fontWeight: 800,
-                  padding: '.25rem .7rem',
+                  padding: '.2rem .55rem',
                   borderRadius: 4,
                   background: t.bc,
                   color: t.bct,
-                  marginBottom: '.9rem',
-                  letterSpacing: '.5px',
+                  marginBottom: '.6rem',
+                  letterSpacing: '.4px',
                   textTransform: 'uppercase',
                 }}
               >
                 {t.badge}
               </div>
-              <div style={{ fontSize: '.92rem', fontWeight: 800, color: '#fff', marginBottom: '.3rem' }}>{t.title}</div>
-              <div style={{ fontSize: '.78rem', color: 'rgba(255,255,255,.4)', lineHeight: 1.6, marginBottom: '.9rem' }}>{t.desc}</div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '.4rem' }}>
+              <div style={{ fontSize: '.86rem', fontWeight: 800, color: '#fff', marginBottom: '.25rem' }}>{t.title}</div>
+              <div style={{ fontSize: '.72rem', color: 'rgba(255,255,255,.4)', lineHeight: 1.5, marginBottom: '.7rem' }}>{t.desc}</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '.3rem' }}>
                 {t.perks.map((p) => (
                   <div
                     key={p}
-                    style={{ fontSize: '.75rem', color: 'rgba(255,255,255,.6)', display: 'flex', alignItems: 'center', gap: '.5rem' }}
+                    style={{ fontSize: '.7rem', color: 'rgba(255,255,255,.6)', display: 'flex', alignItems: 'center', gap: '.35rem' }}
                   >
-                    <span style={{ color: t.pc, fontWeight: 900, fontSize: '.65rem' }}>✓</span>
+                    <span style={{ color: t.pc, fontWeight: 900, fontSize: '.6rem' }}>✓</span>
                     {p}
                   </div>
                 ))}
