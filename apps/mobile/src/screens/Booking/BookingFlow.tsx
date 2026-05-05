@@ -266,12 +266,15 @@ export default function BookingFlow() {
         )}
 
         <View style={{ height: spacing.xl }} />
+      </ScrollView>
+
+      <View style={styles.footer}>
         {step < 4 ? (
           <Button label="Continue" onPress={next} fullWidth />
         ) : (
           <Button label="Confirm & pay" onPress={submit} loading={submitting} fullWidth />
         )}
-      </ScrollView>
+      </View>
     </Screen>
   );
 }
@@ -336,4 +339,12 @@ const styles = StyleSheet.create({
   estLabel: { fontSize: fontSize.xs, color: colors.textMuted, fontWeight: fontWeight.bold, textTransform: 'uppercase', letterSpacing: 0.5 },
   estPrice: { fontSize: 36, fontWeight: fontWeight.black, color: colors.navy, marginTop: 4, letterSpacing: -1 },
   estNote: { fontSize: fontSize.xs, color: colors.textMuted, marginTop: 4 },
+  footer: {
+    paddingHorizontal: spacing.lg,
+    paddingTop: spacing.md,
+    paddingBottom: spacing.md,
+    borderTopWidth: 1,
+    borderTopColor: colors.border,
+    backgroundColor: colors.light,
+  },
 });
