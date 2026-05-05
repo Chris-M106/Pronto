@@ -1,6 +1,7 @@
 import React from 'react';
 import { Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import HomeScreen from '../screens/Home/HomeScreen';
 import SearchScreen from '../screens/Home/SearchScreen';
 import ConversationListScreen from '../screens/Messages/ConversationListScreen';
@@ -16,6 +17,9 @@ const icon = (emoji: string) => ({ color, size }: { color: string; size: number 
 );
 
 export default function CustomerTabs() {
+  const insets = useSafeAreaInsets();
+  const bottomPad = Math.max(insets.bottom, 8);
+
   return (
     <Tab.Navigator
       screenOptions={{
@@ -27,6 +31,8 @@ export default function CustomerTabs() {
           backgroundColor: colors.white,
           borderTopColor: colors.border,
           paddingTop: 6,
+          paddingBottom: bottomPad,
+          height: 56 + bottomPad,
         },
       }}
     >
