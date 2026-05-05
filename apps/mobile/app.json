@@ -23,7 +23,9 @@
     "web": {
       "bundler": "metro"
     },
-    "plugins": [],
+    "plugins": [
+      "@react-native-community/datetimepicker"
+    ],
     "extra": {
       "supabaseUrl": "",
       "supabaseAnonKey": "",

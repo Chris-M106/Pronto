@@ -9,6 +9,8 @@ export interface DraftBooking {
   title: string;
   description: string;
   scheduledAt: string | null;
+  date: string | null;
+  time: string | null;
   estimatedCents: number | null;
   address: string;
   photos: string[];
@@ -32,6 +34,8 @@ const emptyDraft: DraftBooking = {
   title: '',
   description: '',
   scheduledAt: null,
+  date: null,
+  time: null,
   estimatedCents: null,
   address: '',
   photos: [],

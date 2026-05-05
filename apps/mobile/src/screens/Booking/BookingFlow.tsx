@@ -4,6 +4,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Screen from '../../components/Screen';
 import Input from '../../components/Input';
+import DateTimeStep from './DateTimeStep';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import LoadingSpinner from '../../components/LoadingSpinner';
@@ -93,12 +94,15 @@ export default function BookingFlow() {
     }
     setSubmitting(true);
     try {
+      const scheduledAt = draft.date
+        ? `${draft.date}T${draft.time ?? '00:00'}:00`
+        : null;
       const booking = await createBooking({
         customer_id: user.id,
         service_id: draft.serviceId,
         title: draft.title,
         description: draft.description || null,
-        scheduled_at: draft.scheduledAt,
+        scheduled_at: scheduledAt,
         estimated_cents: Math.round((estimate.min + estimate.max) / 2),
         address: draft.address || null,
         photos: draft.photos,
@@ -212,21 +216,7 @@ export default function BookingFlow() {
           </View>
         )}
 
-        {step === 2 && (
-          <View>
-            <Input
-              label="When?"
-              value={draft.scheduledAt ?? ''}
-              onChangeText={(v) => setDraft({ scheduledAt: v })}
-              placeholder="YYYY-MM-DD HH:MM"
-            />
-            <Card>
-              <Text style={{ color: colors.textMuted, fontSize: fontSize.sm }}>
-                Tip: leave blank for &quot;flexible&quot; and let the pro propose a time.
-              </Text>
-            </Card>
-          </View>
-        )}
+        {step === 2 && <DateTimeStep />}
 
         {step === 3 && (
           <View>
@@ -259,7 +249,7 @@ export default function BookingFlow() {
               <Text style={styles.serviceName}>Booking summary</Text>
               <Row label="Service" value={draft.serviceCategory ?? '—'} />
               <Row label="Title" value={draft.title || '—'} />
-              <Row label="When" value={draft.scheduledAt ?? 'Flexible'} />
+              <Row label="When" value={formatScheduled(draft.date, draft.time)} />
               <Row label="Address" value={draft.address || 'TBD'} />
               <Row
                 label="Estimated"
@@ -284,6 +274,17 @@ export default function BookingFlow() {
       </ScrollView>
     </Screen>
   );
+}
+
+function formatScheduled(date: string | null, time: string | null): string {
+  if (!date) return 'Flexible';
+  const d = new Date(date + 'T00:00:00');
+  const datePart = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric' });
+  if (!time) return datePart;
+  const [h, m] = time.split(':').map(Number);
+  const ampm = (h ?? 0) >= 12 ? 'PM' : 'AM';
+  const hour12 = (h ?? 0) % 12 || 12;
+  return `${datePart} at ${hour12}:${String(m ?? 0).padStart(2, '0')} ${ampm}`;
 }
 
 function stepTitle(step: StepIdx): string {
