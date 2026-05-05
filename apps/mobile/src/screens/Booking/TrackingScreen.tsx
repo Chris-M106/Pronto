@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Alert, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import Screen from '../../components/Screen';
@@ -9,6 +10,7 @@ import LoadingSpinner from '../../components/LoadingSpinner';
 import { colors } from '../../utils/colors';
 import { fontSize, fontWeight, radius, spacing } from '../../utils/spacing';
 import { getBooking, updateBookingStatus } from '../../services/bookings';
+import { uploadPhoto } from '../../services/photoUpload';
 import { useBookingRealtime } from '../../hooks/useRealtime';
 import { useAuthStore } from '../../store/authStore';
 import type { CustomerStackParamList } from '../../types';
@@ -34,6 +36,8 @@ export default function TrackingScreen() {
   const { role } = useAuthStore();
   const [booking, setBooking] = useState<Booking | null>(null);
   const [loading, setLoading] = useState(true);
+  const [completionPhotoUri, setCompletionPhotoUri] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   const reload = useCallback(async () => {
     try {
@@ -51,6 +55,39 @@ export default function TrackingScreen() {
   }, [reload]);
 
   useBookingRealtime(bookingId, useCallback((b) => setBooking(b), []));
+
+  async function pickCompletionPhoto() {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (status !== 'granted') {
+      Alert.alert('Permission needed', 'Allow photo access in Settings.');
+      return;
+    }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      quality: 0.8,
+      allowsEditing: true,
+    });
+    if (!result.canceled && result.assets[0]) {
+      setCompletionPhotoUri(result.assets[0].uri);
+    }
+  }
+
+  async function markComplete() {
+    if (!completionPhotoUri) {
+      Alert.alert('Photo required', 'Upload a completion photo before marking the job done.');
+      return;
+    }
+    setUploading(true);
+    try {
+      const url = await uploadPhoto(completionPhotoUri, 'booking-photos');
+      const b = await updateBookingStatus(bookingId, 'completed', { completion_photo_url: url } as Partial<Booking>);
+      setBooking(b);
+    } catch (e) {
+      Alert.alert('Failed', (e as Error).message);
+    } finally {
+      setUploading(false);
+    }
+  }
 
   async function setStatus(status: BookingStatus) {
     try {
@@ -138,7 +175,33 @@ export default function TrackingScreen() {
         ) : null}
 
         {role === 'provider' && booking.status === 'in_progress' ? (
-          <Button label="Mark complete" variant="teal" fullWidth onPress={() => setStatus('completed')} />
+          <View>
+            <Text style={styles.section}>Completion photo (required)</Text>
+            <Pressable onPress={pickCompletionPhoto} style={styles.photoBox}>
+              {completionPhotoUri ? (
+                <Image source={{ uri: completionPhotoUri }} style={styles.photoPreview} />
+              ) : (
+                <>
+                  <Text style={{ fontSize: 28 }}>📷</Text>
+                  <Text style={{ color: colors.textMuted, fontSize: fontSize.sm, marginTop: spacing.xs }}>
+                    Tap to add photo
+                  </Text>
+                </>
+              )}
+            </Pressable>
+            {completionPhotoUri ? (
+              <Pressable onPress={() => setCompletionPhotoUri(null)} style={{ alignSelf: 'center', marginBottom: spacing.md }}>
+                <Text style={{ color: colors.textMuted, fontSize: fontSize.sm }}>Remove photo</Text>
+              </Pressable>
+            ) : null}
+            <Button
+              label={uploading ? 'Uploading…' : 'Mark complete'}
+              variant="teal"
+              fullWidth
+              loading={uploading}
+              onPress={markComplete}
+            />
+          </View>
         ) : null}
 
         {booking.status === 'pending' || booking.status === 'accepted' ? (
@@ -181,4 +244,17 @@ const styles = StyleSheet.create({
   stageDotActive: { backgroundColor: colors.teal },
   stageDotText: { fontSize: fontSize.xs, color: colors.textMuted, fontWeight: fontWeight.bold },
   stageText: { fontSize: fontSize.sm, color: colors.textMuted, flex: 1 },
+  photoBox: {
+    height: 160,
+    borderRadius: radius.lg,
+    borderWidth: 1.5,
+    borderColor: colors.border,
+    borderStyle: 'dashed',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: spacing.md,
+    overflow: 'hidden',
+    backgroundColor: colors.white,
+  },
+  photoPreview: { width: '100%', height: '100%' },
 });

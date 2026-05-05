@@ -8,6 +8,7 @@ import DateTimeStep from './DateTimeStep';
 import Button from '../../components/Button';
 import Card from '../../components/Card';
 import LoadingSpinner from '../../components/LoadingSpinner';
+import PhotoPicker from '../../components/PhotoPicker';
 import { colors } from '../../utils/colors';
 import { fontSize, fontWeight, radius, spacing } from '../../utils/spacing';
 import { SERVICE_CATEGORIES } from '../../utils/constants';
@@ -212,6 +213,11 @@ export default function BookingFlow() {
               value={draft.address}
               onChangeText={(v) => setDraft({ address: v })}
               placeholder="Street, city"
+            />
+            <Text style={[styles.section, { marginTop: spacing.lg }]}>Photos (optional)</Text>
+            <PhotoPicker
+              urls={draft.photos}
+              onChange={(photos) => setDraft({ photos })}
             />
           </View>
         )}
