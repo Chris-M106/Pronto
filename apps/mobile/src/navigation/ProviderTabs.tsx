@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Platform, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ProviderHomeScreen from '../screens/Provider/ProviderHomeScreen';
@@ -19,7 +19,7 @@ const icon = (emoji: string) => ({ color, size }: { color: string; size: number 
 
 export default function ProviderTabs() {
   const insets = useSafeAreaInsets();
-  const bottomPad = Math.max(insets.bottom, 8);
+  const bottomPad = Math.max(insets.bottom, Platform.OS === 'android' ? 48 : 8);
 
   return (
     <Tab.Navigator
