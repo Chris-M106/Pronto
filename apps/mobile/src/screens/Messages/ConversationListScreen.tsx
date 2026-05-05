@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Screen from '../../components/Screen';
 import Card from '../../components/Card';
 import Avatar from '../../components/Avatar';
@@ -21,6 +22,7 @@ export default function ConversationListScreen() {
   const { user } = useAuthStore();
   const [convs, setConvs] = useState<ConvItem[]>([]);
   const [loading, setLoading] = useState(false);
+  const tabBarHeight = useBottomTabBarHeight();
 
   async function load() {
     if (!user) return;
@@ -42,7 +44,7 @@ export default function ConversationListScreen() {
       <FlatList
         data={convs}
         keyExtractor={(c) => `${c.otherUserId}:${c.bookingId}`}
-        contentContainerStyle={{ padding: spacing.lg }}
+        contentContainerStyle={{ padding: spacing.lg, paddingBottom: tabBarHeight + spacing.lg }}
         refreshControl={<RefreshControl refreshing={loading} onRefresh={load} tintColor={colors.blue} />}
         ListHeaderComponent={
           <View>

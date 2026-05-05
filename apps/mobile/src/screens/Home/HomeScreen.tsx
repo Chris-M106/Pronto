@@ -2,6 +2,7 @@ import React from 'react';
 import { FlatList, RefreshControl, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Screen from '../../components/Screen';
 import Card from '../../components/Card';
 import Button from '../../components/Button';
@@ -19,6 +20,7 @@ export default function HomeScreen() {
   const navigation = useNavigation<Nav>();
   const { profile } = useUser();
   const { bookings, loading, refresh } = useBookings();
+  const tabBarHeight = useBottomTabBarHeight();
 
   const upcoming = bookings.filter((b) => ['pending', 'accepted', 'in_progress'].includes(b.status));
 
@@ -27,7 +29,7 @@ export default function HomeScreen() {
       <FlatList
         data={upcoming}
         keyExtractor={(b) => b.id}
-        contentContainerStyle={{ padding: spacing.lg }}
+        contentContainerStyle={{ padding: spacing.lg, paddingBottom: tabBarHeight + spacing.lg }}
         refreshControl={<RefreshControl refreshing={loading} onRefresh={refresh} tintColor={colors.blue} />}
         ListHeaderComponent={
           <View>

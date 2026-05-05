@@ -10,6 +10,7 @@ import { colors } from '../../utils/colors';
 import { fontSize, fontWeight, spacing } from '../../utils/spacing';
 import { useAuth } from '../../hooks/useAuth';
 import { useUser } from '../../hooks/useUser';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import type { CustomerStackParamList } from '../../types';
 
 type Nav = NativeStackNavigationProp<CustomerStackParamList, 'CustomerTabs'>;
@@ -18,10 +19,11 @@ export default function AccountScreen() {
   const navigation = useNavigation<Nav>();
   const { user, signOut, role } = useAuth();
   const { profile } = useUser();
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
     <Screen padded={false}>
-      <ScrollView contentContainerStyle={{ padding: spacing.lg }}>
+      <ScrollView contentContainerStyle={{ padding: spacing.lg, paddingBottom: tabBarHeight + spacing.lg }}>
         <View style={styles.header}>
           <Avatar name={profile?.full_name ?? user?.email ?? '?'} size={72} />
           <View style={{ marginLeft: spacing.lg, flex: 1 }}>

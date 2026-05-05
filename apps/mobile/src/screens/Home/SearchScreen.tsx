@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { FlatList, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import Screen from '../../components/Screen';
 import Input from '../../components/Input';
 import ProviderCard from '../../components/ProviderCard';
@@ -19,6 +20,7 @@ export default function SearchScreen() {
   const [query, setQuery] = useState('');
   const [category, setCategory] = useState<string | undefined>(undefined);
   const { providers, loading, refresh } = useProviders({ category });
+  const tabBarHeight = useBottomTabBarHeight();
 
   const filtered = useMemo(() => {
     if (!query) return providers;
@@ -73,7 +75,7 @@ export default function SearchScreen() {
       <FlatList
         data={filtered}
         keyExtractor={(p) => p.user_id}
-        contentContainerStyle={{ padding: spacing.lg }}
+        contentContainerStyle={{ padding: spacing.lg, paddingBottom: tabBarHeight + spacing.lg }}
         ListEmptyComponent={
           loading ? <LoadingSpinner /> : (
             <Text style={styles.empty}>No providers match this filter yet.</Text>
