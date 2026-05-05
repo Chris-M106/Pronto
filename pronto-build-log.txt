@@ -30,3 +30,14 @@ COST ANALYSIS:
 - Day 1 (Haiku): Very cheap (~$0.05-0.10)
 - Day 2 (Opus): ~$0.60-0.80
 - Total so far: ~$0.70-0.90
+
+DAY3 so far
+
+Rough estimate based on session work:
+
+Long code reads (16 bug fixes across ~15 files) → ~40k tokens input
+Multiple reinstall/debug cycles → ~15k tokens input
+Responses (code edits, explanations) → ~20k tokens output
+Approx total: ~75k tokens
+
+Heavy session. PACK8: Bug fixes + Expo debugging = lots of file reads + back-and-forth

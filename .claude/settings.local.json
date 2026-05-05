@@ -26,7 +26,10 @@
       "Bash([ -d \"node_modules/$d\" ])",
       "Bash(tee /tmp/tsc.log)",
       "Read(//tmp/**)",
-      "Bash(npx expo *)"
+      "Bash(npx expo *)",
+      "Bash(npx expo-doctor *)",
+      "Bash(kill %1)",
+      "Bash(wait)"
     ]
   }
 }

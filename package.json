@@ -9,11 +9,24 @@
   ],
   "devDependencies": {
     "@tailwindcss/postcss": "^4.2.4",
+    "babel-preset-expo": "^55.0.19",
     "turbo": "2.9.7"
   },
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
     "test": "turbo run test"
+  },
+  "dependencies": {
+    "expo": "~54.0.0",
+    "expo-constants": "~18.0.13",
+    "expo-linking": "~8.0.12",
+    "expo-status-bar": "~3.0.9",
+    "react": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-gesture-handler": "~2.28.0",
+    "react-native-reanimated": "~4.1.1",
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0"
   }
 }
