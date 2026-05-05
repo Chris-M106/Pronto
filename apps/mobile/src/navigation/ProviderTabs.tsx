@@ -28,8 +28,6 @@ export default function ProviderTabs() {
           backgroundColor: colors.white,
           borderTopColor: colors.border,
           paddingTop: 6,
-          paddingBottom: 6,
-          height: 64,
         },
       }}
     >
