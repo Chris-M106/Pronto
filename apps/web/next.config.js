@@ -10,6 +10,9 @@ const nextConfig = {
   images: {
     unoptimized: false,
   },
+  compiler: {
+    styledJsx: false,
+  },
 };
 
 module.exports = nextConfig;
