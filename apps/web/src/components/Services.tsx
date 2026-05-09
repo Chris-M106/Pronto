@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FadeIn } from 'ui';
 
 const svcs = [
@@ -14,6 +14,15 @@ const svcs = [
 
 export default function Services() {
   const [hov, setHov] = useState<number | null>(null);
+  const [glowPos, setGlowPos] = useState({ x: 0, y: 0 });
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  const handleMouseMove = (i: number, e: React.MouseEvent<HTMLDivElement>) => {
+    if (cardRefs.current[i]) {
+      const rect = cardRefs.current[i]!.getBoundingClientRect();
+      setGlowPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+    }
+  };
   return (
     <section style={{ padding: '6rem 5%', background: '#fff' }}>
       <FadeIn>
@@ -48,8 +57,20 @@ export default function Services() {
           {svcs.map((s, i) => (
             <div
               key={i}
+              className="service-card"
+              ref={(el) => (cardRefs.current[i] = el)}
               onMouseEnter={() => setHov(i)}
               onMouseLeave={() => setHov(null)}
+              onMouseMove={(e) => {
+                handleMouseMove(i, e);
+                if (cardRefs.current[i]) {
+                  const rect = cardRefs.current[i]!.getBoundingClientRect();
+                  const x = ((e.clientX - rect.left) / rect.width) * 100;
+                  const y = ((e.clientY - rect.top) / rect.height) * 100;
+                  cardRefs.current[i]!.style.setProperty('--x', `${x}%`);
+                  cardRefs.current[i]!.style.setProperty('--y', `${y}%`);
+                }
+              }}
               style={{
                 background: s.bg,
                 borderRadius: 16,
@@ -57,12 +78,9 @@ export default function Services() {
                 textAlign: 'center',
                 cursor: 'pointer',
                 border: `1.5px solid ${hov === i ? '#BFCFFF' : 'transparent'}`,
-                transform: hov === i ? 'translateY(-6px)' : 'none',
-                boxShadow: hov === i ? '0 16px 40px rgba(45,91,227,.1)' : 'none',
-                transition: 'all .25s cubic-bezier(.22,1,.36,1)',
               }}
             >
-              <div style={{ fontSize: '1.6rem', marginBottom: '.6rem' }}>{s.icon}</div>
+              <div className="service-icon" style={{ fontSize: '1.6rem', marginBottom: '.6rem' }}>{s.icon}</div>
               <div style={{ fontSize: '.87rem', fontWeight: 700, color: '#111827', marginBottom: '.25rem' }}>{s.name}</div>
               <div style={{ fontSize: '.7rem', color: '#6B7280' }}>{s.count}</div>
             </div>

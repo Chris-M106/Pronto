@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { FadeIn } from 'ui';
 
 interface Step {
@@ -30,6 +31,8 @@ interface StepColProps {
 }
 
 function StepCol({ pill, pillBg, pillColor, pillBorder, steps }: StepColProps) {
+  const [hoveredStep, setHoveredStep] = useState<number | null>(null);
+
   return (
     <div>
       <div
@@ -50,7 +53,12 @@ function StepCol({ pill, pillBg, pillColor, pillBorder, steps }: StepColProps) {
       </div>
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {steps.map((s, i) => (
-          <div key={i} style={{ display: 'flex', gap: '1.1rem', paddingBottom: i < steps.length - 1 ? '2rem' : 0 }}>
+          <div
+            key={i}
+            onMouseEnter={() => setHoveredStep(i)}
+            onMouseLeave={() => setHoveredStep(null)}
+            style={{ display: 'flex', gap: '1.1rem', paddingBottom: i < steps.length - 1 ? '2rem' : 0 }}
+          >
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
               <div
                 style={{
@@ -66,6 +74,9 @@ function StepCol({ pill, pillBg, pillColor, pillBorder, steps }: StepColProps) {
                   fontSize: '.88rem',
                   border: s.border ? `1.5px solid ${s.border}` : 'none',
                   flexShrink: 0,
+                  transform: hoveredStep === i ? 'scale(1.1)' : 'scale(1)',
+                  boxShadow: hoveredStep === i ? '0 8px 20px rgba(45, 91, 227, 0.2)' : 'none',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.6, 1)',
                 }}
               >
                 {s.n}

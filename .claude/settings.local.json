@@ -29,7 +29,10 @@
       "Bash(npx expo *)",
       "Bash(npx expo-doctor *)",
       "Bash(kill %1)",
-      "Bash(wait)"
+      "Bash(wait)",
+      "Bash(git checkout *)",
+      "PowerShell(taskkill /PID 17104 /F)",
+      "Bash(Start-Sleep -Seconds 3)"
     ]
   }
 }
